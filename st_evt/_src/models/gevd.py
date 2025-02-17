@@ -476,8 +476,8 @@ class CoupledExponentialUnPooledGEVD(eqx.Module):
             scale_intercept = numpyro.sample("scale_intercept", fn=self.scale_intercept_prior)
             
             scale = einx.multiply("S, T -> T S", scale_slope, (t - self.t0))
-            scale = einx.divide("T S, S -> T S", scale, scale_intercept)
-            scale = einx.multiply("T S, S -> T S", jnp.exp(scale), location_intercept)
+            scale = einx.divide("T S, S -> T S", scale, location_intercept)
+            scale = einx.multiply("T S, S -> T S", jnp.exp(scale), scale_intercept)
             
             # SCALE PARAMETER
             scale = numpyro.deterministic("scale",  scale)
